@@ -10,7 +10,7 @@ import UIKit
 
 class TodolainenVC: UITableViewController {
     
-    let itemArray = ["Bajsa", "Äta mat", "Dricka öl", "Programmera", "Gymma", "Sova", "Basta"]
+    var itemArray = ["Bajsa", "Äta mat", "Dricka öl", "Programmera", "Gymma", "Sova", "Basta"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +42,30 @@ class TodolainenVC: UITableViewController {
     }
     
     
+    @IBAction func addBarButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add new item", message: "", preferredStyle: .alert)
+        alert.addTextField { (txtField) in
+            txtField.placeholder = "Add new item"
+            textField = txtField
+        }
+        
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            let theText = textField.text!
+            self.itemArray.append(theText)
+            
+            print(theText)
+            print(self.itemArray)
+    
+            self.tableView.reloadData()
+        }
+        
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
+    }
     
     
 

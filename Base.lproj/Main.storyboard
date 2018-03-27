@@ -32,7 +32,14 @@
                             <outlet property="delegate" destination="pie-uU-1n8" id="sPy-fd-ieA"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Todolainen" id="jnT-gb-CQ6"/>
+                    <navigationItem key="navigationItem" title="Todolainen" id="jnT-gb-CQ6">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="6JV-MU-njc">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="addBarButtonPressed:" destination="pie-uU-1n8" id="zFH-lq-k1A"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fTO-NJ-TB1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
