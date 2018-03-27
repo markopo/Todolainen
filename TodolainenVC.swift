@@ -10,7 +10,7 @@ import UIKit
 
 class TodolainenVC: UITableViewController {
     
-    let itemArray = ["Bajsa", "Äta mat", "Dricka öl"]
+    let itemArray = ["Bajsa", "Äta mat", "Dricka öl", "Programmera", "Gymma", "Sova", "Basta"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +31,19 @@ class TodolainenVC: UITableViewController {
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+           // let item = itemArray[indexPath.row]
+          //  print("ITEM: \(item)")
+        
+            let isChecked = tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark
+            tableView.cellForRow(at: indexPath)?.accessoryType = !isChecked ? .checkmark : .none
+            tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    
+    
+    
 
 
 }
