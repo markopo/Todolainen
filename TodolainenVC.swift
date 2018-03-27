@@ -53,13 +53,12 @@ class TodolainenVC: UITableViewController {
         }
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            let theText = textField.text!
-            self.itemArray.append(theText)
+            let theText = textField.text!.trimmingCharacters(in: NSCharacterSet.whitespaces)
             
-            print(theText)
-            print(self.itemArray)
-    
-            self.tableView.reloadData()
+            if !theText.isEmpty {
+                self.itemArray.append(theText)
+                self.tableView.reloadData()
+            }
         }
         
         alert.addAction(action)
