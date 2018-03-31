@@ -11,12 +11,19 @@ import UIKit
 class TodolainenVC: UITableViewController {
     
     var itemArray = ["Bajsa", "Äta mat", "Dricka öl", "Programmera", "Gymma", "Sova", "Basta"]
+    
+    let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-       
+        if let itemArr =  defaults.array(forKey: "ItemArray") as? [String] {
+            
+            print("storage: \(itemArr.count)")
+            
+            itemArray = itemArr
+        }
         
     }
     
@@ -57,6 +64,7 @@ class TodolainenVC: UITableViewController {
             
             if !theText.isEmpty {
                 self.itemArray.append(theText)
+                self.defaults.set(self.itemArray, forKey: "ItemArray")
                 self.tableView.reloadData()
             }
         }
