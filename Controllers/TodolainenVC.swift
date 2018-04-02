@@ -10,7 +10,7 @@ import UIKit
 
 class TodolainenVC: UITableViewController {
     
-    var itemArray = ["Bajsa", "Äta mat", "Dricka öl", "Programmera", "Gymma", "Sova", "Basta"]
+    var itemArray = [Item]()
     
     let defaults = UserDefaults.standard
 
@@ -18,12 +18,21 @@ class TodolainenVC: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        if let itemArr =  defaults.array(forKey: "ItemArray") as? [String] {
+        for index in 1...30 {
             
-            print("storage: \(itemArr.count)")
+            let item = Item()
+            item.title = "Bajskorv #\(index)"
+            item.done = false
+            itemArray.append(item)
             
+        }
+        
+        /**
+        if let itemArr =  defaults.array(forKey: "ItemArray") as? [Item] {
+          //  print("storage: \(itemArr.count)")
             itemArray = itemArr
         }
+        */
         
     }
     
@@ -34,7 +43,9 @@ class TodolainenVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-        cell.textLabel?.text = itemArray[indexPath.row]
+        let item = itemArray[indexPath.row];
+        cell.textLabel?.text = item.title
+        cell.accessoryType = item.done == true ? .checkmark : .none
         return cell
     }
 
@@ -43,8 +54,9 @@ class TodolainenVC: UITableViewController {
            // let item = itemArray[indexPath.row]
           //  print("ITEM: \(item)")
         
-            let isChecked = tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark
-            tableView.cellForRow(at: indexPath)?.accessoryType = !isChecked ? .checkmark : .none
+            itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        
+            tableView.reloadData()
             tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -63,7 +75,10 @@ class TodolainenVC: UITableViewController {
             let theText = textField.text!.trimmingCharacters(in: NSCharacterSet.whitespaces)
             
             if !theText.isEmpty {
-                self.itemArray.append(theText)
+                let newItem = Item()
+                newItem.title = theText
+                
+                self.itemArray.append(newItem)
                 self.defaults.set(self.itemArray, forKey: "ItemArray")
                 self.tableView.reloadData()
             }
