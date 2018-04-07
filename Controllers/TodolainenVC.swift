@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import CoreData
 
 class TodolainenVC: UITableViewController {
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var itemArray = [Item]()
     
@@ -22,25 +25,7 @@ class TodolainenVC: UITableViewController {
         
         print("DATAFILE: \(dataFilePath!)")
         
-        loadItems()
-
-        /***
-        for index in 1...30 {
-            
-            let item = Item()
-            item.title = "Bajskorv #\(index)"
-            item.done = false
-            itemArray.append(item)
-            
-        }
-         */
-        
-        /**
-        if let itemArr =  defaults.array(forKey: "ItemArray") as? [Item] {
-          //  print("storage: \(itemArr.count)")
-            itemArray = itemArr
-        }
-        */
+       loadItems()
         
     }
     
@@ -86,12 +71,11 @@ class TodolainenVC: UITableViewController {
             let theText = textField.text!.trimmingCharacters(in: NSCharacterSet.whitespaces)
             
             if !theText.isEmpty {
-                let newItem = Item()
+                let newItem = Item(context: self.context)
                 newItem.title = theText
+                newItem.done = false
                 self.itemArray.append(newItem)
-               
                 self.saveItems()
-                
             }
         }
         
@@ -102,29 +86,27 @@ class TodolainenVC: UITableViewController {
     
     func saveItems() {
         
-        let encoder = PropertyListEncoder()
-        
         do {
-            let data = try encoder.encode(itemArray)
-            try data.write(to: dataFilePath!)
+            try context.save()
         } catch {
-            print("Error encoding item array, \(error)")
+            print("Error save Items, \(error)")
         }
         
         tableView.reloadData()
     }
     
     func loadItems() {
-    
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            
-            let decoder = PropertyListDecoder()
-            do {
-                itemArray = try decoder.decode([Item].self, from: data)
-            } catch {
-                print("ERROR IN DECODING ITEMS: \(error)")
-            }
+        
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        
+        do {
+          itemArray = try context.fetch(request)
         }
+        catch {
+            print("Error fetching data from context \(error)")
+        }
+            
+     
      
     }
 
