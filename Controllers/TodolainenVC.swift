@@ -23,6 +23,7 @@ class TodolainenVC: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+    
         print("DATAFILE: \(dataFilePath!)")
         
        loadItems()
@@ -106,7 +107,18 @@ class TodolainenVC: UITableViewController {
         itemArray.remove(at: index)
         saveItems()
     }
+    
+}
 
 
+// MARK: - Search bar methods
+extension TodolainenVC: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let searchText = searchBar.text ?? "";
+        print("search clicked: \(searchText)")
+    }
+    
+    
 }
 
