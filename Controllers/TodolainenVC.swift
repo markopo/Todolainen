@@ -21,10 +21,10 @@ class TodolainenVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
         
-    
-        print("DATAFILE: \(dataFilePath!)")
+       // print("DATAFILE: \(dataFilePath!)")
         
        loadItems()
         
@@ -115,8 +115,17 @@ class TodolainenVC: UITableViewController {
 extension TodolainenVC: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let searchText = searchBar.text ?? "";
-        print("search clicked: \(searchText)")
+        searchBar.resignFirstResponder()
+        let searchText = searchBar.text?.lowercased() ?? "";
+        
+        if !searchText.isEmpty {
+            itemArray = itemArray.filter { $0.title!.lowercased().contains(searchText) }
+        }
+        else {
+            loadItems()
+        }
+        
+         tableView.reloadData()
     }
     
     
