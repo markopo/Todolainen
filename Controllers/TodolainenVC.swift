@@ -44,9 +44,6 @@ class TodolainenVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-           // let item = itemArray[indexPath.row]
-          //  print("ITEM: \(item)")
-        
             // TOGGLE
             itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
@@ -85,29 +82,29 @@ class TodolainenVC: UITableViewController {
     }
     
     func saveItems() {
-        
         do {
             try context.save()
         } catch {
             print("Error save Items, \(error)")
         }
-        
         tableView.reloadData()
     }
     
     func loadItems() {
-        
         let request : NSFetchRequest<Item> = Item.fetchRequest()
-        
         do {
           itemArray = try context.fetch(request)
         }
         catch {
             print("Error fetching data from context \(error)")
         }
-            
-     
-     
+    }
+    
+    func deleteItem(index: Int) {
+        let selectedItem = itemArray[index]
+        context.delete(selectedItem)
+        itemArray.remove(at: index)
+        saveItems()
     }
 
 
