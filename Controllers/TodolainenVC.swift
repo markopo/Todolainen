@@ -119,7 +119,22 @@ extension TodolainenVC: UISearchBarDelegate {
         let searchText = searchBar.text?.lowercased() ?? "";
         
         if !searchText.isEmpty {
-            itemArray = itemArray.filter { $0.title!.lowercased().contains(searchText) }
+           // itemArray = itemArray.filter { $0.title!.lowercased().contains(searchText) }
+            let request: NSFetchRequest<Item> = Item.fetchRequest()
+            let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchText)
+            request.predicate = predicate
+            
+            let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+
+            request.sortDescriptors = [ sortDescriptor ]
+            
+            do {
+                itemArray = try context.fetch(request)
+            }
+            catch {
+                print("Error fetching data from context \(error)")
+            }
+            
         }
         else {
             loadItems()
