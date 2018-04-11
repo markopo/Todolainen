@@ -91,14 +91,15 @@ class TodolainenVC: UITableViewController {
         tableView.reloadData()
     }
     
-    func loadItems() {
-        let request : NSFetchRequest<Item> = Item.fetchRequest()
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
         do {
           itemArray = try context.fetch(request)
         }
         catch {
             print("Error fetching data from context \(error)")
         }
+        
+         tableView.reloadData()
     }
     
     func deleteItem(index: Int) {
@@ -119,28 +120,16 @@ extension TodolainenVC: UISearchBarDelegate {
         let searchText = searchBar.text?.lowercased() ?? "";
         
         if !searchText.isEmpty {
-           // itemArray = itemArray.filter { $0.title!.lowercased().contains(searchText) }
             let request: NSFetchRequest<Item> = Item.fetchRequest()
             let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchText)
             request.predicate = predicate
-            
-            let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-
-            request.sortDescriptors = [ sortDescriptor ]
-            
-            do {
-                itemArray = try context.fetch(request)
-            }
-            catch {
-                print("Error fetching data from context \(error)")
-            }
-            
+            request.sortDescriptors = [ NSSortDescriptor(key: "title", ascending: true) ]
+            loadItems(with: request)
         }
         else {
             loadItems()
         }
         
-         tableView.reloadData()
     }
     
     
