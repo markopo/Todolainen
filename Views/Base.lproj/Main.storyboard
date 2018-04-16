@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Todolainen-->
+        <!--Items-->
         <scene sceneID="lry-cl-ph1">
             <objects>
                 <tableViewController id="pie-uU-1n8" customClass="TodolainenVC" customModule="Todolainen" customModuleProvider="target" sceneMemberID="viewController">
@@ -40,7 +40,7 @@
                             <outlet property="delegate" destination="pie-uU-1n8" id="sPy-fd-ieA"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Todolainen" id="jnT-gb-CQ6">
+                    <navigationItem key="navigationItem" title="Items" id="jnT-gb-CQ6">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="6JV-MU-njc">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -52,6 +52,45 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fTO-NJ-TB1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="544.79999999999995" y="113.79310344827587"/>
+        </scene>
+        <!--Todolainen-->
+        <scene sceneID="xlr-fh-gZO">
+            <objects>
+                <tableViewController id="dFK-eu-N6K" customClass="CategoryViewController" customModule="Todolainen" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ANc-iD-1ek">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryCell" id="2kx-DL-PRS">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2kx-DL-PRS" id="zue-e3-OoP">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="dFK-eu-N6K" id="qH5-jP-kX1"/>
+                            <outlet property="delegate" destination="dFK-eu-N6K" id="8H6-8k-mVN"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Todolainen" id="8ud-uE-hTG">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="PPf-PG-JPZ">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="dFK-eu-N6K" id="MQ3-PL-mqc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="pie-uU-1n8" kind="show" identifier="goToItems" id="tC6-4C-wg7"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="10H-uT-Izg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-247" y="114"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yWv-dq-3yK">
@@ -68,12 +107,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="pie-uU-1n8" kind="relationship" relationship="rootViewController" id="3Pf-Vi-kIL"/>
+                        <segue destination="dFK-eu-N6K" kind="relationship" relationship="rootViewController" id="fRJ-Uk-ylq"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tPV-ZK-Vw8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-135" y="114"/>
+            <point key="canvasLocation" x="-1047" y="114"/>
         </scene>
     </scenes>
 </document>
