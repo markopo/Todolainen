@@ -15,6 +15,12 @@ class TodolainenVC: UITableViewController {
     
     var itemArray = [Item]()
     
+    var selectedCategory : Category? {
+        didSet {
+            loadItems()
+        }
+    }
+    
      let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
     
     let defaults = UserDefaults.standard
@@ -22,11 +28,6 @@ class TodolainenVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view, typically from a nib.
-        
-       // print("DATAFILE: \(dataFilePath!)")
-        
-       loadItems()
         
     }
     
@@ -72,6 +73,7 @@ class TodolainenVC: UITableViewController {
                 let newItem = Item(context: self.context)
                 newItem.title = theText
                 newItem.done = false
+                newItem.parentCategory = self.selectedCategory
                 self.itemArray.append(newItem)
                 self.saveItems()
             }
@@ -91,7 +93,17 @@ class TodolainenVC: UITableViewController {
         tableView.reloadData()
     }
     
-    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate:NSPredicate?=nil) {
+        
+        let catPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        
+        if let additionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(type: NSCompoundPredicate.LogicalType.and, subpredicates: [ catPredicate, additionalPredicate ])
+        }
+        else {
+            request.predicate = catPredicate
+        }
+        
         do {
           itemArray = try context.fetch(request)
         }
@@ -124,7 +136,7 @@ extension TodolainenVC: UISearchBarDelegate {
             let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchText)
             request.predicate = predicate
             request.sortDescriptors = [ NSSortDescriptor(key: "title", ascending: true) ]
-            loadItems(with: request)
+            loadItems(with: request, predicate: predicate)
         }
         else {
             loadItems()
